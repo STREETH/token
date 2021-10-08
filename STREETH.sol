@@ -179,6 +179,7 @@ contract STREETH is Context, IERC20, Ownable {
         
         _rOwned[owner()] = _rTotal;
         _isExcludedFromFee[owner()] = true;
+        _isExcludedFromFee[address(this)] = true;
 
         emit Transfer(address(0), owner(), _tTotal);
     }
@@ -377,7 +378,7 @@ contract STREETH is Context, IERC20, Ownable {
         }
         
         bool takeFee = true;
-        if(!(_isExcludedFromFee[from] || _isExcludedFromFee[to]) && to != pair && from != pair){
+        if(_isExcludedFromFee[from] || _isExcludedFromFee[to] || (to != pair && from != pair)){
             takeFee = false;
         }
 
